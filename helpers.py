@@ -70,8 +70,10 @@ def get_active_meeting_count():
     client = None  # Initialize client to None for finally block
     try:
         client = MongoClient(
-            mongodb_uri, serverSelectionTimeoutMS=5000
-        )  # Added timeout
+            mongodb_uri,
+            serverSelectionTimeoutMS=5000,
+            tls=True,  # Enforce TLS for cloud deployments
+        )
         # The ismaster command is cheap and does not require auth.
         client.admin.command("ismaster")  # Verify connection
         db = client[database_name]
